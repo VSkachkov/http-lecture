@@ -2,6 +2,8 @@ package repository;
 
 import converter.AccountConverter;
 import dto.AccountDto;
+import dto.ResultDto;
+import exception.ApplicationException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +27,12 @@ public class AccountRepository {
         return AccountConverter.convert(id, accounts.get(id));
     }
 
-    public AccountDto put(final Integer id, final String accountName) {
-        return AccountConverter.convert(id, accounts.putIfAbsent(id, accountName));
+    public void create(final Integer id, final String accountName) {
+        if (accounts.get(id) == null) {
+            accounts.put(id, accountName);
+        }
+        else {
+            throw new ApplicationException(400, "Account exists");
+        }
     }
 }

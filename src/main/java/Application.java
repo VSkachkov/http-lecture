@@ -54,7 +54,7 @@ public class Application {
             });
             post("/account/create", (req, res) -> {
                 final AccountDto dto = gson.fromJson(req.body(), AccountDto.class);
-                accountRepository.put(dto.getId(), dto.getAccount());
+                accountRepository.create(dto.getId(), dto.getAccount());
                 res.status(HttpStatus.CREATED_201);
                 res.type(Constants.APPLICATION_JSON);
                 return gson.toJson(ResultDto.builder().success(true).build());
@@ -79,6 +79,7 @@ public class Application {
     private static void configExceptions() {
         exception(ApplicationException.class, (exception, request, response) -> {
             response.status(exception.getCode());
+            response.type(Constants.APPLICATION_JSON);
             response.body(gson.toJson(ResultDto
                     .builder()
                     .success(false)
@@ -88,6 +89,7 @@ public class Application {
         //for any unexpected exception response with Http status 500
         exception(RuntimeException.class, (exception, request, response) -> {
             response.status(500);
+
             response.body(gson.toJson(ResultDto
                     .builder()
                     .success(false)
