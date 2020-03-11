@@ -32,6 +32,8 @@ public class Application {
         path("browser", () -> {
             before((request, response) -> response.type(Constants.PLAIN_TEXT));
             get("", (req, res) -> {
+                // TODO define browser from request
+                // TODO depending on the browser return different text
                 return "This browser is not defined";
             });
         });
@@ -59,6 +61,7 @@ public class Application {
                 res.type(Constants.APPLICATION_JSON);
                 return gson.toJson(ResultDto.builder().success(true).build());
             });
+            //TODO add methods to delete and update accounts using HTTP DELETE AND PUT METHODS
         });
     }
 
